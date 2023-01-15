@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ProyectoFinalAndroid</string>
+    <string name="colors">Colores</string>
+    <string name="numbers">Números</string>
+    <string name="days_of_week">Días de la semana</string>
+    <string name="favorites">Favoritos</string>
+    <string name="more_options">Más opciones</string>
+    <string name="translations">Traducciones</string>
+    <string name="header_image">Imagen cabecera</string>
+    <string name="preferences">Preferencias</string>
+    <string name="nightmode">Modo Noche</string>
+    <string name="activated">Activado</string>
+    <string name="disabled">Desactivado</string>
+</resources>
