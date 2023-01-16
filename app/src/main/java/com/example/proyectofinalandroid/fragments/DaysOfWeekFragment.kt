@@ -1,4 +1,4 @@
-package com.example.proyectofinalandroid
+package com.example.proyectofinalandroid.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.R
+import com.example.proyectofinalandroid.adapters.DayOfWeekAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.DayOfWeek

@@ -11,4 +11,9 @@
     <string name="nightmode">Modo Noche</string>
     <string name="activated">Activado</string>
     <string name="disabled">Desactivado</string>
+    <string name="spanish_word">Palabra española</string>
+    <string name="english_word">Palabra inglesa</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="accept">Aceptar</string>
 </resources>

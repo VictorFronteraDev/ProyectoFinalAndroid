@@ -1,9 +1,10 @@
-package com.example.proyectofinalandroid
+package com.example.proyectofinalandroid.fragments
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import com.example.proyectofinalandroid.R
 
 class PreferencesFragment : PreferenceFragmentCompat() {
 

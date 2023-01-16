@@ -2,7 +2,7 @@ package com.example.proyectofinalandroid.dao
 
 import androidx.room.*
 import com.example.proyectofinalandroid.model.Favourite
-
+@Dao
 interface FavouriteDao {
 
     @Query("SELECT * from Favourite")

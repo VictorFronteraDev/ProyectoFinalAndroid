@@ -3,9 +3,10 @@ package com.example.proyectofinalandroid.model
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity
-data class Favourite (var id: Int?, var spanishWord: String, var englishWord: String) : Parcelable{
+data class Favourite (@PrimaryKey var id: Int?, var spanishWord: String, var englishWord: String) : Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString()!!,

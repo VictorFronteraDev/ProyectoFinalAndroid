@@ -1,4 +1,4 @@
-package com.example.proyectofinalandroid
+package com.example.proyectofinalandroid.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.DayOfWeek
 
 class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {

@@ -1,4 +1,4 @@
-package com.example.proyectofinalandroid
+package com.example.proyectofinalandroid.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,11 +6,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.Color
 
 class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
 
     private var list: ArrayList<Color> = ArrayList()
+    private var listener: View.OnLongClickListener? = null
 
     //Create the ViewHolder
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -29,13 +31,10 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MiViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.element_list, viewGroup, false)
 
-        view.setOnClickListener {
-
-        }
+        view.setOnLongClickListener (listener)
 
         return MiViewHolder(view)
     }
-
 
     override fun onBindViewHolder(viewHolder: MiViewHolder, position: Int) {
         viewHolder.spanishWord.text = list[position].spanishWord
@@ -78,5 +77,9 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun setOnLongClickListener(onLongClickListener: View.OnLongClickListener) {
+        listener = onLongClickListener
+        true
+    }
 
 }
