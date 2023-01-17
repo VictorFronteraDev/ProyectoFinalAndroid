@@ -16,4 +16,9 @@
     <string name="edit">Editar</string>
     <string name="delete">Borrar</string>
     <string name="accept">Aceptar</string>
+    <string name="update">Actualizar</string>
+    <string name="fields_empty">Los campos no pueden quedar vacios</string>
+    <string name="deleted">Borrado</string>
+    <string name="fail_reponse">Fallo en la respuesta</string>
+    <string name="updated">Actualizado</string>
 </resources>

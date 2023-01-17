@@ -69,14 +69,10 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
 
-                // Mostramos que la opción se ha pulsado.
                 it.isChecked = true
 
-                // Mostramos el título de la sección en el Toolbar.
                 title = it.title
             }
-
-            //cerramos el drawer
 
             drawerLayout.closeDrawer(GravityCompat.START)
 
@@ -93,7 +89,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home){
-            // Si está abierto lo cerramos sino lo abrimos.
             if(drawerLayout.isDrawerOpen(GravityCompat.START))
                 drawerLayout.closeDrawer(GravityCompat.START)
             else
@@ -108,7 +103,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        // Si está abierto al pulsar "Atrás" lo cerramos.
         if(drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawer(GravityCompat.START)
         else

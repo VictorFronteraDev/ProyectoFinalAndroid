@@ -12,7 +12,7 @@ import com.example.proyectofinalandroid.model.Color
 class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
 
     private var list: ArrayList<Color> = ArrayList()
-    private var listener: View.OnLongClickListener? = null
+    private var listener: View.OnClickListener? = null
 
     //Create the ViewHolder
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -31,7 +31,7 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MiViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.element_list, viewGroup, false)
 
-        view.setOnLongClickListener (listener)
+        view.setOnClickListener (listener)
 
         return MiViewHolder(view)
     }
@@ -77,9 +77,8 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MiViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnLongClickListener(onLongClickListener: View.OnLongClickListener) {
-        listener = onLongClickListener
-        true
+    fun setOnClickListener(onClickListener: View.OnClickListener) {
+        listener = onClickListener
     }
 
 }

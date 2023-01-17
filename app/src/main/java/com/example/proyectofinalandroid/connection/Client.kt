@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class Client {
     companion object {
-        const val URL: String = "https://my-json-server.typicode.com/VictorFronteraDev/dbJson/"
+        const val URL: String = "http://10.0.2.2:3000/"
         var retrofit: Retrofit? = null
 
         fun getClient(): Retrofit? {

@@ -10,9 +10,9 @@ import com.example.proyectofinalandroid.R
 
 class DialogEditDelete : DialogFragment() {
 
-    private lateinit var listener: NoticeDialogListener
+    private lateinit var listener: DialogListener
 
-    interface NoticeDialogListener {
+    interface DialogListener {
         fun onDialogEditClick(dialog: DialogEditDelete)
         fun onDialogDeleteClick(dialog: DialogEditDelete)
     }
@@ -42,7 +42,7 @@ class DialogEditDelete : DialogFragment() {
 //        }
 //    }
 
-    fun setListener(_listener : NoticeDialogListener) {
+    fun setListener(_listener : DialogListener) {
         listener = _listener
     }
 
