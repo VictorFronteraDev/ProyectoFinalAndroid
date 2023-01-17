@@ -12,6 +12,7 @@ import com.example.proyectofinalandroid.model.DayOfWeek
 class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
 
     private var list: ArrayList<DayOfWeek> = ArrayList()
+    private var listener: View.OnClickListener? = null
 
     //Create the ViewHolder
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -77,5 +78,9 @@ class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
         list.removeAt(pos)
 
         notifyDataSetChanged()
+    }
+
+    fun setOnClickListener(onClickListener: View.OnClickListener) {
+        listener = onClickListener
     }
 }

@@ -33,15 +33,15 @@ interface Api {
     //Add a new day of week
     @FormUrlEncoded
     @POST("days_of_week")
-    fun saveDaysOfWeek(@Field("spanish_word") spanishWord: String, @Field("english_word") englishWord: String): Call<DayOfWeek>
+    fun saveDayOfWeek(@Field("spanish_word") spanishWord: String, @Field("english_word") englishWord: String): Call<DayOfWeek>
 
     // Update the day of week with the id selected
     @PUT("days_of_week/{id}")
-    fun updateDaysOfWeek(@Path("id") id: Int, @Body dayOfWeek: DayOfWeek): Call<DayOfWeek>
+    fun updateDayOfWeek(@Path("id") id: Int, @Body dayOfWeek: DayOfWeek): Call<DayOfWeek>
 
     // Delete the day of week with the id selected
     @DELETE("days_of_week/{id}")
-    fun deleteDaysOfWeek(@Path("id") id: Int): Call<Color>
+    fun deleteDayOfWeek(@Path("id") id: Int): Call<DayOfWeek>
 
 
     // Get Numbers from json

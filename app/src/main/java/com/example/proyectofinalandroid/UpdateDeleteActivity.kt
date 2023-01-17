@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.Toast
 import com.example.proyectofinalandroid.databinding.ActivityUpdateDeleteBinding
 import com.example.proyectofinalandroid.model.Color
+import com.example.proyectofinalandroid.model.DayOfWeek
+import com.example.proyectofinalandroid.model.Numbers
 
 class UpdateDeleteActivity : AppCompatActivity() {
 
@@ -21,38 +23,103 @@ class UpdateDeleteActivity : AppCompatActivity() {
 
         setContentView(view)
 
-        if(intent.hasExtra(Intent.EXTRA_TEXT)) {
+        if (intent.hasExtra(Intent.EXTRA_TEXT)) {
             val bundle = intent.getBundleExtra(Intent.EXTRA_TEXT)
             key = bundle?.getString("Key").toString()
 
-            if(key == "color") {
-                val color: Color = bundle?.getParcelable("Color")!!
 
-                id = color.id!!
-                binding.editTxtSpanishWord.setText(color.spanishWord)
-                binding.editTxtEnglishWord.setText(color.englishWord)
 
+            when (key) {
+                "Color" -> {
+                    val color: Color = bundle?.getParcelable("Color")!!
+
+                    id = color.id!!
+                    binding.editTxtSpanishWord.setText(color.spanishWord)
+                    binding.editTxtEnglishWord.setText(color.englishWord)
+                }
+                "DayOfWeek" -> {
+                    val dayOfWeek: DayOfWeek? = bundle?.getParcelable("DayOfWeek")
+
+                    id = dayOfWeek?.id!!
+                    binding.editTxtSpanishWord.setText(dayOfWeek.spanishWord)
+                    binding.editTxtEnglishWord.setText(dayOfWeek.spanishWord)
+                }
+                "Numbers" -> {
+                    val number: Numbers? = bundle?.getParcelable("Numbers")
+
+                    id = number!!.id!!
+                    binding.editTxtSpanishWord.setText(number.spanishWord)
+                    binding.editTxtEnglishWord.setText(number.englishWord)
+
+                }
             }
-
         }
 
-        binding.updateButton.setOnClickListener {
-            val bundle = Bundle()
+        when (key) {
+            "Color" -> {
+                binding.updateButton.setOnClickListener {
+                    val bundle = Bundle()
 
-            if(!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
-                bundle.putParcelable("Color", Color(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
-                bundle.putBoolean("Delete", false)
+                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
+                        bundle.putParcelable("Color", Color(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+                        bundle.putBoolean("Delete", false)
 
-                val intent = Intent().apply {
-                    putExtra(Intent.EXTRA_TEXT, bundle)
+                        val intent = Intent().apply {
+                            putExtra(Intent.EXTRA_TEXT, bundle)
+                        }
+
+                        setResult(RESULT_OK, intent)
+
+                        finish()
+
+                    } else {
+                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
+                    }
                 }
 
-                setResult(RESULT_OK, intent)
+            }
+            "DayOfWeek" -> {
+                binding.updateButton.setOnClickListener {
+                    val bundle = Bundle()
 
-                finish()
+                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
+                        bundle.putParcelable("DayOfWeek", DayOfWeek(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+                        bundle.putBoolean("Delete", false)
 
-            } else {
-                Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
+                        val intent = Intent().apply {
+                            putExtra(Intent.EXTRA_TEXT, bundle)
+                        }
+
+                        setResult(RESULT_OK, intent)
+
+                        finish()
+
+                    } else {
+                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+            }
+            "Number" -> {
+                binding.updateButton.setOnClickListener {
+                    val bundle = Bundle()
+
+                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
+                        bundle.putParcelable("Numbers", Numbers(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+                        bundle.putBoolean("Delete", false)
+
+                        val intent = Intent().apply {
+                            putExtra(Intent.EXTRA_TEXT, bundle)
+                        }
+
+                        setResult(RESULT_OK, intent)
+
+                        finish()
+
+                    } else {
+                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
+                    }
+                }
             }
         }
 

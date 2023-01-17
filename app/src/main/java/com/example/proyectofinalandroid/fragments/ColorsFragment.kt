@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +18,7 @@ import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.ColorAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
-import com.example.proyectofinalandroid.dialog.DialogEditDelete
 import com.example.proyectofinalandroid.model.Color
-import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +29,7 @@ class ColorsFragment : Fragment() {
     private var retrofit: Retrofit? = null
     private var colorAdapter: ColorAdapter? = null
     private var pressedPosition: Int = -1
-    private var key: String = "color"
+    private var key: String = "Color"
 
     val updateDeleteResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -87,7 +83,6 @@ class ColorsFragment : Fragment() {
                 putExtra(Intent.EXTRA_TEXT, bundle)
             }
             updateDeleteResult.launch(intent)
-
         }
 
         return view
@@ -106,7 +101,7 @@ class ColorsFragment : Fragment() {
                         colorAdapter?.addToList(colorList)
                     }
                 } else
-                    Toast.makeText(context, "Fail into the response", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_SHORT).show()
             }
 
             override fun onFailure(call: Call<ArrayList<Color>>, t: Throwable) {
@@ -162,5 +157,4 @@ class ColorsFragment : Fragment() {
             }
         })
     }
-
 }

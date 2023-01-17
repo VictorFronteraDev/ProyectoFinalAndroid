@@ -12,6 +12,7 @@ import com.example.proyectofinalandroid.model.Numbers
 class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
 
     private var list: ArrayList<Numbers> = ArrayList()
+    private var listener: View.OnClickListener? = null
 
     //Create the ViewHolder
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -78,4 +79,8 @@ class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
 
         notifyDataSetChanged()
     }
+    fun setOnClickListener(onClickListener: View.OnClickListener) {
+        listener = onClickListener
+    }
+
 }
