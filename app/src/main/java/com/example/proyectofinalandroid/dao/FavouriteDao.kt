@@ -1,20 +1,18 @@
 package com.example.proyectofinalandroid.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.proyectofinalandroid.model.Favourite
 @Dao
 interface FavouriteDao {
 
-    @Query("SELECT * from Favourite")
-    fun getAll(): List<Favourite>
+    @Query("SELECT * FROM favourite_table")
+    fun getFavourites() : LiveData<List<Favourite>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(people: List<Favourite>)
+    fun addFavourite(favourite: Favourite)
 
-    @Update
-    fun update(person: Favourite)
-
-    @Delete
-    fun delete(person: Favourite)
+    @Query("UPDATE favourite_table SET spanishWord =:spanishWord, englishWord=:englishWord WHERE id = id")
+    fun updateFavourite(spanishWord: String, englishWord: String)
 
 }

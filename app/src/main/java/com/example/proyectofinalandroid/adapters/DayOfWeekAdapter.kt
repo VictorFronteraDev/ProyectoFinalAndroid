@@ -23,7 +23,7 @@ class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
         init {
             spanishWord = view.findViewById(R.id.txt_view_spanish_word)
             englishWord = view.findViewById(R.id.txt_view_english_word)
-            btnFavorite = view.findViewById(R.id.btnFavorite)
+            btnFavorite = view.findViewById(R.id.btnFavourite)
         }
     }
 
@@ -31,9 +31,7 @@ class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MiViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.element_list, viewGroup, false)
 
-        view.setOnClickListener {
-
-        }
+        view.setOnClickListener (listener)
 
         return MiViewHolder(view)
     }

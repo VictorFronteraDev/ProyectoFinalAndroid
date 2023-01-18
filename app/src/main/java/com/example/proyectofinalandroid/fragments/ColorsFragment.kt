@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,12 +20,16 @@ import com.example.proyectofinalandroid.adapters.ColorAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.Color
+import com.example.proyectofinalandroid.model.Favourite
+import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
 class ColorsFragment : Fragment() {
+
+    private lateinit var favouriteViewModel: FavouriteViewModel
 
     private var retrofit: Retrofit? = null
     private var colorAdapter: ColorAdapter? = null
@@ -84,6 +89,16 @@ class ColorsFragment : Fragment() {
             }
             updateDeleteResult.launch(intent)
         }
+
+//        btn.setOnClickListener {
+//            pressedPosition = recycler.getChildLayoutPosition(it)
+//
+//            val color = colorAdapter?.getItem(pressedPosition)
+//
+//            val favourite = Favourite(color?.spanishWord, color?.englishWord)
+//
+//            favouriteViewModel.add(favourite)
+//        }
 
         return view
 

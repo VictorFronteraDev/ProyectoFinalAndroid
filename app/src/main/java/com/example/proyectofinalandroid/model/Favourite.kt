@@ -2,35 +2,16 @@ package com.example.proyectofinalandroid.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
-data class Favourite (@PrimaryKey var id: Int?, var spanishWord: String, var englishWord: String) : Parcelable{
-    constructor(parcel: Parcel) : this(
-        parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readString()!!,
-        parcel.readString()!!
-    ) {
-    }
+@Entity(tableName = "favourite_table")
+data class Favourite(@ColumnInfo(name = "spanishWord") var spanishWord: String?,
+                      @ColumnInfo (name = "englishWord") var englishWord: String?) {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int? = 0
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(id)
-        parcel.writeString(spanishWord)
-        parcel.writeString(englishWord)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Favourite> {
-        override fun createFromParcel(parcel: Parcel): Favourite {
-            return Favourite(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Favourite?> {
-            return arrayOfNulls(size)
-        }
-    }
 }

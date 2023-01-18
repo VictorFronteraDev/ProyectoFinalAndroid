@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnFavorite"
+        android:id="@+id/btnFavourite"
         android:layout_width="60dp"
         android:layout_height="60dp" />
 

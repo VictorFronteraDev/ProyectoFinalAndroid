@@ -7,14 +7,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinalandroid.R
-import com.example.proyectofinalandroid.model.Numbers
+import com.example.proyectofinalandroid.model.Favourite
 
-class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
+class FavouriteAdapter: RecyclerView.Adapter<FavouriteAdapter.MiViewHolder>() {
 
-    private var list: ArrayList<Numbers> = ArrayList()
+    private var list: ArrayList<Favourite> = ArrayList()
     private var listener: View.OnClickListener? = null
 
-    //Create the ViewHolder
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val spanishWord: TextView
         val englishWord: TextView
@@ -27,7 +26,6 @@ class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
         }
     }
 
-    //Create new view in the layout "elements_list"
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MiViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.element_list, viewGroup, false)
 
@@ -36,49 +34,28 @@ class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
         return MiViewHolder(view)
     }
 
-
-    override fun onBindViewHolder(viewHolder: MiViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: FavouriteAdapter.MiViewHolder, position: Int) {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
 
     }
 
-    //Return the size of the list of number
     override fun getItemCount() = list.size
 
 
-    //Return the element in the position pos
     fun getItem(pos: Int) = list[pos]
 
-    // Method to add a number list to recyclerView
-    fun addToList(list_: ArrayList<Numbers>) {
+    fun setOnItemClickListener(onClickListener: View.OnClickListener) {
+        listener = onClickListener
+    }
+
+    fun addToList(list_: ArrayList<Favourite>) {
         list.clear()
         list.addAll(list_)
 
-        notifyDataSetChanged() // Update recyclerView
-    }
-
-    fun addToList(number: Numbers) {
-        list.add(number)
-
-        notifyDataSetChanged() // Update recyclerView
-    }
-
-    // Method to update a position of the recyclerView
-    fun updateList(pos: Int, number: Numbers) {
-        list[pos] = number
-
-        notifyDataSetChanged() // Update recyclerView
-    }
-
-    //Method to delete a position of the recyclerView
-    fun deleteFromList(pos: Int){
-        list.removeAt(pos)
-
         notifyDataSetChanged()
     }
-    fun setOnClickListener(onClickListener: View.OnClickListener) {
-        listener = onClickListener
-    }
+
+
 
 }

@@ -46,10 +46,12 @@ class MainActivity : AppCompatActivity() {
             lateinit var fragment: Fragment
 
             when(it.itemId){
-                R.id.menu_colors -> {
+                R.id.menu_colors, R.id.menu_favorites -> {
                     if (it.itemId == R.id.menu_colors) {
                         fragment = ColorsFragment()
                         fragmentTransaction = true
+                    } else if(it .itemId == R.id.menu_favorites) {
+
                     }
 
                 }
