@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             lateinit var fragment: Fragment
 
             when(it.itemId){
-                R.id.menu_colors, R.id.menu_favorites -> {
+                R.id.menu_colors -> {
                     if (it.itemId == R.id.menu_colors) {
                         fragment = ColorsFragment()
                         fragmentTransaction = true

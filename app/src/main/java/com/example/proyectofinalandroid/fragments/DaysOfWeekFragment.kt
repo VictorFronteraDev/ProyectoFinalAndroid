@@ -18,7 +18,6 @@ import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.DayOfWeekAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
-import com.example.proyectofinalandroid.model.Color
 import com.example.proyectofinalandroid.model.DayOfWeek
 import retrofit2.Call
 import retrofit2.Callback
@@ -88,7 +87,6 @@ class DaysOfWeekFragment : Fragment() {
         }
 
         return view
-
 
     }
 

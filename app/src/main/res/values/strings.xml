@@ -21,4 +21,7 @@
     <string name="deleted">Borrado</string>
     <string name="fail_reponse">Fallo en la respuesta</string>
     <string name="updated">Actualizado</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm_delete">¿Estás seguro? Esta acción es irreversible</string>
+    <string name="activity_null">La actividad no puede ser nula</string>
 </resources>

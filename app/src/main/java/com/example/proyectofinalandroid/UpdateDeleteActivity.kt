@@ -1,5 +1,6 @@
 package com.example.proyectofinalandroid
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -54,6 +55,9 @@ class UpdateDeleteActivity : AppCompatActivity() {
                 }
             }
         }
+
+
+
 
         when (key) {
             "Color" -> {
@@ -124,19 +128,26 @@ class UpdateDeleteActivity : AppCompatActivity() {
         }
 
         binding.deleteButton.setOnClickListener {
-            val bundle = Bundle()
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(R.string.delete)
+            builder.setMessage(R.string.confirm_delete)
+            builder.setPositiveButton(R.string.accept) { _,_ ->
+                val bundle = Bundle()
 
-            bundle.putBoolean("Delete", true)
-            bundle.putInt("id", id)
+                bundle.putBoolean("Delete", true)
+                bundle.putInt("id", id)
 
-            val intent = Intent().apply {
-                putExtra(Intent.EXTRA_TEXT, bundle)
+                val intent = Intent().apply {
+                    putExtra(Intent.EXTRA_TEXT, bundle)
+                }
+
+                setResult(RESULT_OK, intent)
+
+                finish()
             }
-
-            setResult(RESULT_OK, intent)
-
-            finish()
+            builder.setNegativeButton(R.string.cancel, null)
+            val dialog = builder.create()
+            dialog.show()
         }
-
     }
 }
