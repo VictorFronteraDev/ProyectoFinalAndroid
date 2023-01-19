@@ -24,4 +24,6 @@
     <string name="cancel">Cancelar</string>
     <string name="confirm_delete">¿Estás seguro? Esta acción es irreversible</string>
     <string name="activity_null">La actividad no puede ser nula</string>
+    <string name="fab">Fab</string>
+    <string name="add">Anyadir</string>
 </resources>
