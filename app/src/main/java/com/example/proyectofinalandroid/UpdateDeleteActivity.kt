@@ -28,8 +28,6 @@ class UpdateDeleteActivity : AppCompatActivity() {
             val bundle = intent.getBundleExtra(Intent.EXTRA_TEXT)
             key = bundle?.getString("Key").toString()
 
-
-
             when (key) {
                 "Color" -> {
                     val color: Color = bundle?.getParcelable("Color")!!
@@ -55,9 +53,6 @@ class UpdateDeleteActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-
 
         when (key) {
             "Color" -> {

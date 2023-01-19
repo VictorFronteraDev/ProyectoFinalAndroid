@@ -1,6 +1,5 @@
 package com.example.proyectofinalandroid.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
 
     private var list: ArrayList<Color> = ArrayList()
     private var listener: View.OnClickListener? = null
-    private var listenerButton: OnButtonClickListener? = null
 
     //Create the ViewHolder
     class MyViewHolder(view: View) : ViewHolder(view){
@@ -42,7 +40,6 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
-
 
     }
 
@@ -84,14 +81,5 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
     fun setOnClickListener(onClickListener: View.OnClickListener) {
         listener = onClickListener
     }
-
-    interface OnButtonClickListener {
-        fun onButtonClick(position: Int)
-    }
-
-    fun setOnButtonClickListener(listenerButton: OnButtonClickListener) {
-        this.listenerButton = listenerButton
-    }
-
 
 }

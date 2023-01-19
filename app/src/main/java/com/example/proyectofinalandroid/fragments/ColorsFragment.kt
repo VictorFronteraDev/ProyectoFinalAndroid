@@ -60,6 +60,8 @@ class ColorsFragment : Fragment() {
 
         val recycler: RecyclerView = view.findViewById(R.id.recycler_fragment)
 
+        val btn: Button? = view.findViewById(R.id.btnFavourite)
+
         recycler.setHasFixedSize(true)
 
         recycler.addItemDecoration(DividerItemDecoration(context, 1))
@@ -90,15 +92,14 @@ class ColorsFragment : Fragment() {
             updateDeleteResult.launch(intent)
         }
 
-//        btn.setOnClickListener {
-//            pressedPosition = recycler.getChildLayoutPosition(it)
-//
-//            val color = colorAdapter?.getItem(pressedPosition)
-//
-//            val favourite = Favourite(color?.spanishWord, color?.englishWord)
-//
-//            favouriteViewModel.add(favourite)
-//        }
+
+        btn?.setOnClickListener {
+            val color = colorAdapter?.getItem(pressedPosition)
+
+            val favourite = Favourite(color?.spanishWord, color?.englishWord)
+
+            favouriteViewModel.add(favourite)
+        }
 
         return view
 
