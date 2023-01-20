@@ -63,12 +63,6 @@ class DaysOfWeekFragment : Fragment() {
 
         dayOfWeekAdapter = DayOfWeekAdapter()
 
-        recycler.adapter = dayOfWeekAdapter
-
-        retrofit = Client.getClient()
-
-        getData()
-
         dayOfWeekAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
 
@@ -85,6 +79,12 @@ class DaysOfWeekFragment : Fragment() {
             }
             updateDeleteResult.launch(intent)
         }
+
+        recycler.adapter = dayOfWeekAdapter
+
+        retrofit = Client.getClient()
+
+        getData()
 
         return view
 

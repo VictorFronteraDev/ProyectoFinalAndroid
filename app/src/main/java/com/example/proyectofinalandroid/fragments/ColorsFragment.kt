@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.AddActivity
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.ColorAdapter
@@ -22,6 +23,8 @@ import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.Color
 import com.example.proyectofinalandroid.model.Favourite
 import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,12 +45,25 @@ class ColorsFragment : Fragment() {
 
             // Delete
             if(resultData?.getBoolean("Delete", true) == true){
-                deleteData(resultData.getInt("id", 0))
+                deleteColor(resultData.getInt("id", 0))
             } else { // Update
                 val color = resultData?.getParcelable<Color>("Color")
 
-                updateData(color!!)
+                updateColor(color!!)
             }
+        }
+    }
+
+    val addResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val resultData = result.data?.getBundleExtra(Intent.EXTRA_TEXT)
+
+            val color = resultData?.getParcelable<Color>("Color")
+
+            if(color != null) {
+                addColor(color)
+            }
+
         }
     }
 
@@ -60,7 +76,7 @@ class ColorsFragment : Fragment() {
 
         val recycler: RecyclerView = view.findViewById(R.id.recycler_fragment)
 
-        val btn: Button? = view.findViewById(R.id.btnFavourite)
+        val fab: FloatingActionButton = view.findViewById(R.id.fab)
 
         recycler.setHasFixedSize(true)
 
@@ -68,13 +84,20 @@ class ColorsFragment : Fragment() {
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        colorAdapter = ColorAdapter()
+        favouriteViewModel = ViewModelProvider(this)[favouriteViewModel::class.java]
+
+        colorAdapter = ColorAdapter { btn, pressedPosition ->
+            val color = colorAdapter?.getItem(pressedPosition)
+
+            val favourite = Favourite(color?.spanishWord, color?.englishWord)
+
+            favouriteViewModel.add(favourite)
+
+        }
 
         recycler.adapter = colorAdapter
 
-        retrofit = Client.getClient()
 
-        getData()
 
         colorAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
@@ -92,14 +115,20 @@ class ColorsFragment : Fragment() {
             updateDeleteResult.launch(intent)
         }
 
+        fab.setOnClickListener {
+            val bundle = Bundle()
 
-        btn?.setOnClickListener {
-            val color = colorAdapter?.getItem(pressedPosition)
+            bundle.putString("Key", key)
+            val intent = Intent(context, AddActivity::class.java).apply {
+                putExtra(Intent.EXTRA_TEXT, bundle)
+            }
 
-            val favourite = Favourite(color?.spanishWord, color?.englishWord)
-
-            favouriteViewModel.add(favourite)
+            addResult.launch(intent)
         }
+
+        retrofit = Client.getClient()
+
+        getData()
 
         return view
 
@@ -126,7 +155,32 @@ class ColorsFragment : Fragment() {
         })
     }
 
-    private fun updateData(color: Color){
+    private fun addColor(color: Color) {
+        val api: Api? = retrofit?.create(Api::class.java)
+
+        api?.saveColor(color.spanishWord, color.englishWord)?.enqueue(object : Callback<Color> {
+            override fun onResponse(call: Call<Color>, response: Response<Color>) {
+                if(response.isSuccessful) {
+                    val color = response.body()
+
+                    if(color != null) {
+                        colorAdapter?.addToList(color)
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.color_added, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.accept){
+                            }
+                            .show()
+                    }
+                } else
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<Color>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun updateColor(color: Color){
         val api: Api? = retrofit?.create(Api::class.java)
 
         color.id?.let {
@@ -151,7 +205,7 @@ class ColorsFragment : Fragment() {
         }
     }
 
-    private fun deleteData(id: Int){
+    private fun deleteColor(id: Int){
         val api: Api? = retrofit?.create(Api::class.java)
 
         // onResponse y onFailure.

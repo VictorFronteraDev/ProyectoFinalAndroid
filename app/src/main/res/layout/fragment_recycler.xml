@@ -13,12 +13,13 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="167dp"
-        android:layout_height="68dp"
-        android:layout_gravity="end|bottom"
+        android:layout_width="67dp"
+
+        android:layout_height="55dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/fab"
+        android:src="@drawable/plus"
         app:layout_constraintBottom_toBottomOf="@+id/recycler_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.154"

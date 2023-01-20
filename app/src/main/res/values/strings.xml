@@ -25,5 +25,10 @@
     <string name="confirm_delete">¿Estás seguro? Esta acción es irreversible</string>
     <string name="activity_null">La actividad no puede ser nula</string>
     <string name="fab">Fab</string>
-    <string name="add">Anyadir</string>
+    <string name="add">Añadir</string>
+    <string name="group">Grupo</string>
+    <string name="color_added">Color añadido correctamente</string>
+    <string name="confirm_cancel">¿Estás seguro que quieres cancelar el añadido?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>

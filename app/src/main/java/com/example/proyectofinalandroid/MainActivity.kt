@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager
 import com.example.proyectofinalandroid.databinding.ActivityMainBinding
 import com.example.proyectofinalandroid.fragments.ColorsFragment
 import com.example.proyectofinalandroid.fragments.DaysOfWeekFragment
+import com.example.proyectofinalandroid.fragments.FavouriteFragment
 import com.example.proyectofinalandroid.fragments.NumbersFragment
 
 class MainActivity : AppCompatActivity() {
@@ -51,7 +52,8 @@ class MainActivity : AppCompatActivity() {
                         fragment = ColorsFragment()
                         fragmentTransaction = true
                     } else if(it .itemId == R.id.menu_favorites) {
-
+                        fragment = FavouriteFragment()
+                        fragmentTransaction = true
                     }
 
                 }

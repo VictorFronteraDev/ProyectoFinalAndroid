@@ -15,6 +15,7 @@ class UpdateDeleteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateDeleteBinding
     private var key: String = ""
     private var id: Int = 0
+    private var bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,7 @@ class UpdateDeleteActivity : AppCompatActivity() {
         setContentView(view)
 
         if (intent.hasExtra(Intent.EXTRA_TEXT)) {
-            val bundle = intent.getBundleExtra(Intent.EXTRA_TEXT)
+            bundle = intent.getBundleExtra(Intent.EXTRA_TEXT)!!
             key = bundle?.getString("Key").toString()
 
             when (key) {
@@ -54,13 +55,14 @@ class UpdateDeleteActivity : AppCompatActivity() {
             }
         }
 
-        when (key) {
-            "Color" -> {
-                binding.updateButton.setOnClickListener {
-                    val bundle = Bundle()
+        binding.updateButton.setOnClickListener {
+            val spanishWord = binding.editTxtSpanishWord.text.toString()
+            val englishWord = binding.editTxtEnglishWord.text.toString()
 
-                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
-                        bundle.putParcelable("Color", Color(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+            if(!spanishWord.isNullOrEmpty() ||!englishWord.isNullOrEmpty()) {
+                when (key) {
+                    "Color" -> {
+                        bundle.putParcelable("Color", Color(id, spanishWord, englishWord))
                         bundle.putBoolean("Delete", false)
 
                         val intent = Intent().apply {
@@ -70,19 +72,9 @@ class UpdateDeleteActivity : AppCompatActivity() {
                         setResult(RESULT_OK, intent)
 
                         finish()
-
-                    } else {
-                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
                     }
-                }
-
-            }
-            "DayOfWeek" -> {
-                binding.updateButton.setOnClickListener {
-                    val bundle = Bundle()
-
-                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
-                        bundle.putParcelable("DayOfWeek", DayOfWeek(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+                    "DayOfWeek" -> {
+                        bundle.putParcelable("DayOfWeek", DayOfWeek(id, spanishWord, englishWord))
                         bundle.putBoolean("Delete", false)
 
                         val intent = Intent().apply {
@@ -92,19 +84,9 @@ class UpdateDeleteActivity : AppCompatActivity() {
                         setResult(RESULT_OK, intent)
 
                         finish()
-
-                    } else {
-                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
                     }
-                }
-
-            }
-            "Number" -> {
-                binding.updateButton.setOnClickListener {
-                    val bundle = Bundle()
-
-                    if (!binding.editTxtSpanishWord.text.toString().isNullOrEmpty() || !binding.editTxtEnglishWord.text.toString().isNullOrEmpty()) {
-                        bundle.putParcelable("Numbers", Numbers(id, binding.editTxtSpanishWord.text.toString(), binding.editTxtEnglishWord.text.toString()))
+                    "Number" -> {
+                        bundle.putParcelable("Numbers", Numbers(id, spanishWord, englishWord))
                         bundle.putBoolean("Delete", false)
 
                         val intent = Intent().apply {
@@ -114,11 +96,10 @@ class UpdateDeleteActivity : AppCompatActivity() {
                         setResult(RESULT_OK, intent)
 
                         finish()
-
-                    } else {
-                        Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
                     }
                 }
+            } else {
+                Toast.makeText(this, R.string.fields_empty, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -126,8 +107,7 @@ class UpdateDeleteActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             builder.setTitle(R.string.delete)
             builder.setMessage(R.string.confirm_delete)
-            builder.setPositiveButton(R.string.accept) { _,_ ->
-                val bundle = Bundle()
+            builder.setPositiveButton(R.string.accept) { _, _ ->
 
                 bundle.putBoolean("Delete", true)
                 bundle.putInt("id", id)

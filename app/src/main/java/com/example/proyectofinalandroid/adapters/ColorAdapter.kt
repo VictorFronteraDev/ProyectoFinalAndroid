@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.Color
 
-class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
+class ColorAdapter(private val listenerBtn: (Button, Int) -> Unit): RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
 
     private var list: ArrayList<Color> = ArrayList()
     private var listener: View.OnClickListener? = null
@@ -40,6 +40,10 @@ class ColorAdapter: RecyclerView.Adapter<ColorAdapter.MyViewHolder>() {
     override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
+
+        viewHolder.btnFavourite.setOnClickListener {
+            listenerBtn(it as Button, position)
+        }
 
     }
 

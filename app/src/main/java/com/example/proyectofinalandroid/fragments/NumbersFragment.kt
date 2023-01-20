@@ -63,12 +63,6 @@ class NumbersFragment : Fragment() {
 
         numbersAdapter = NumbersAdapter()
 
-        recycler.adapter = numbersAdapter
-
-        retrofit = Client.getClient()
-
-        getData()
-
         numbersAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
 
@@ -84,6 +78,12 @@ class NumbersFragment : Fragment() {
             }
             updateDeleteResult.launch(intent)
         }
+
+        recycler.adapter = numbersAdapter
+
+        retrofit = Client.getClient()
+
+        getData()
 
         return view
     }
