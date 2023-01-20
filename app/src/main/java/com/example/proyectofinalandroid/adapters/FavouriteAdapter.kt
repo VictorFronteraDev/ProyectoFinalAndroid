@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.Favourite
 
-class FavouriteAdapter: RecyclerView.Adapter<FavouriteAdapter.MiViewHolder>() {
+class FavouriteAdapter(private val listenerBtn: (Button, Int) -> Unit): RecyclerView.Adapter<FavouriteAdapter.MiViewHolder>() {
 
     private var list: ArrayList<Favourite> = ArrayList()
     private var listener: View.OnClickListener? = null
@@ -17,12 +17,12 @@ class FavouriteAdapter: RecyclerView.Adapter<FavouriteAdapter.MiViewHolder>() {
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val spanishWord: TextView
         val englishWord: TextView
-        val btnFavorite: Button
+        val btnFavourite: Button
 
         init {
             spanishWord = view.findViewById(R.id.txt_view_spanish_word)
             englishWord = view.findViewById(R.id.txt_view_english_word)
-            btnFavorite = view.findViewById(R.id.btnFavourite)
+            btnFavourite = view.findViewById(R.id.btnFavourite)
         }
     }
 
@@ -38,6 +38,9 @@ class FavouriteAdapter: RecyclerView.Adapter<FavouriteAdapter.MiViewHolder>() {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
 
+        viewHolder.btnFavourite.setOnClickListener {
+            listenerBtn(it as Button, position)
+        }
     }
 
     override fun getItemCount() = list.size

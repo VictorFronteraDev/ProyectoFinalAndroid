@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -15,16 +16,15 @@ import com.example.proyectofinalandroid.adapters.FavouriteAdapter
 import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.Favourite
 import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Retrofit
 
 class FavouriteFragment : Fragment() {
 
     private lateinit var favouriteViewModel: FavouriteViewModel
-
-    private var retrofit: Retrofit? = null
-    private var favouriteAdapter: FavouriteAdapter? = null
     private var pressedPosition: Int = -1
-    private var key: String = "Favourite"
+
+    private var favouriteAdapter: FavouriteAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,13 +35,26 @@ class FavouriteFragment : Fragment() {
 
         val recycler: RecyclerView = view.findViewById(R.id.recycler_fragment)
 
+        val fab: FloatingActionButton = view.findViewById(R.id.fab)
+
+        fab.isEnabled = false
+        fab.isVisible = false
+
         recycler.setHasFixedSize(true)
 
         recycler.addItemDecoration(DividerItemDecoration(context, 1))
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        favouriteAdapter = FavouriteAdapter()
+        favouriteAdapter = FavouriteAdapter{ _, pressedPosition ->
+            val favourite = favouriteAdapter?.getItem(pressedPosition)
+
+            if (favourite != null) {
+                favouriteViewModel.delete(favourite.spanishWord.toString(),
+                    favourite.englishWord.toString())
+            }
+
+        }
 
         recycler.adapter = favouriteAdapter
 
@@ -51,6 +64,7 @@ class FavouriteFragment : Fragment() {
             favouriteAdapter!!.addToList(favourite as ArrayList<Favourite>)
 
         }
+
 
 
         return view

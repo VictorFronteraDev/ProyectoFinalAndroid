@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.Numbers
 
-class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
+class NumbersAdapter(private val listenerBtn: (Button, Int) -> Unit): RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
 
     private var list: ArrayList<Numbers> = ArrayList()
     private var listener: View.OnClickListener? = null
@@ -18,12 +18,12 @@ class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val spanishWord: TextView
         val englishWord: TextView
-        val btnFavorite: Button
+        val btnFavourite: Button
 
         init {
             spanishWord = view.findViewById(R.id.txt_view_spanish_word)
             englishWord = view.findViewById(R.id.txt_view_english_word)
-            btnFavorite = view.findViewById(R.id.btnFavourite)
+            btnFavourite = view.findViewById(R.id.btnFavourite)
         }
     }
 
@@ -41,6 +41,9 @@ class NumbersAdapter: RecyclerView.Adapter<NumbersAdapter.MiViewHolder>() {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
 
+        viewHolder.btnFavourite.setOnClickListener {
+            listenerBtn(it as Button, position)
+        }
     }
 
     //Return the size of the list of number

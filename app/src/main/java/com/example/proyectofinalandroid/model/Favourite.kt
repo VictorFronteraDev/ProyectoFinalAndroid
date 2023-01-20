@@ -12,6 +12,6 @@ data class Favourite(@ColumnInfo(name = "spanishWord") var spanishWord: String?,
                       @ColumnInfo (name = "englishWord") var englishWord: String?) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int? = 0
+    var id: Int = 0
 
 }

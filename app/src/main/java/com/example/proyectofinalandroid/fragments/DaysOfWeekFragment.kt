@@ -10,21 +10,29 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.AddActivity
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.DayOfWeekAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.DayOfWeek
+import com.example.proyectofinalandroid.model.Favourite
+import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
 class DaysOfWeekFragment : Fragment() {
+
+    private lateinit var favouriteViewModel: FavouriteViewModel
 
     private var retrofit: Retrofit? = null
     private var dayOfWeekAdapter: DayOfWeekAdapter? = null
@@ -46,6 +54,18 @@ class DaysOfWeekFragment : Fragment() {
         }
     }
 
+    val addResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val resultData = result.data?.getBundleExtra(Intent.EXTRA_TEXT)
+
+            val dayOfWeek = resultData?.getParcelable<DayOfWeek>("DayOfWeek")
+
+            if(dayOfWeek != null) {
+                addDayOfWeek(dayOfWeek)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,13 +75,25 @@ class DaysOfWeekFragment : Fragment() {
 
         val recycler: RecyclerView = view.findViewById(R.id.recycler_fragment)
 
+        val fab: FloatingActionButton = view.findViewById(R.id.fab)
+
         recycler.setHasFixedSize(true)
 
         recycler.addItemDecoration(DividerItemDecoration(context, 1))
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        dayOfWeekAdapter = DayOfWeekAdapter()
+        favouriteViewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
+
+        dayOfWeekAdapter = DayOfWeekAdapter{ _, pressedPosition ->
+            val dayOfWeek = dayOfWeekAdapter?.getItem(pressedPosition)
+
+            val favourite = Favourite(dayOfWeek?.spanishWord, dayOfWeek?.englishWord)
+
+            favouriteViewModel.add(favourite)
+        }
+
+        recycler.adapter = dayOfWeekAdapter
 
         dayOfWeekAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
@@ -80,7 +112,16 @@ class DaysOfWeekFragment : Fragment() {
             updateDeleteResult.launch(intent)
         }
 
-        recycler.adapter = dayOfWeekAdapter
+        fab.setOnClickListener {
+            val bundle = Bundle()
+
+            bundle.putString("Key", key)
+            val intent = Intent(context, AddActivity::class.java).apply {
+                putExtra(Intent.EXTRA_TEXT, bundle)
+            }
+
+            addResult.launch(intent)
+        }
 
         retrofit = Client.getClient()
 
@@ -102,7 +143,7 @@ class DaysOfWeekFragment : Fragment() {
                         dayOfWeekAdapter?.addToList(dayList)
                     }
                 } else
-                    Toast.makeText(context, "Fail into the response", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_SHORT).show()
             }
 
             override fun onFailure(call: Call<ArrayList<DayOfWeek>>, t: Throwable) {
@@ -110,6 +151,32 @@ class DaysOfWeekFragment : Fragment() {
             }
         })
     }
+
+    private fun addDayOfWeek(dayOfWeek: DayOfWeek) {
+        val api: Api? = retrofit?.create(Api::class.java)
+
+        api?.saveDayOfWeek(dayOfWeek.spanishWord, dayOfWeek.englishWord)?.enqueue(object : Callback<DayOfWeek> {
+            override fun onResponse(call: Call<DayOfWeek>, response: Response<DayOfWeek>) {
+                if(response.isSuccessful) {
+                    val dayOfWeek = response.body()
+
+                    if(dayOfWeek != null) {
+                        dayOfWeekAdapter?.addToList(dayOfWeek)
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.day_added, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.accept){
+                            }
+                            .show()
+                    }
+                } else
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<DayOfWeek>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
     private fun updateData(dayOfWeek: DayOfWeek){
         val api: Api? = retrofit?.create(Api::class.java)
 

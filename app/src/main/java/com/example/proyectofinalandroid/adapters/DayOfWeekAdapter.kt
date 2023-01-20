@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.model.DayOfWeek
 
-class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
+class DayOfWeekAdapter(private val listenerBtn: (Button, Int) -> Unit): RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
 
     private var list: ArrayList<DayOfWeek> = ArrayList()
     private var listener: View.OnClickListener? = null
@@ -18,12 +18,12 @@ class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
     class MiViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val spanishWord: TextView
         val englishWord: TextView
-        val btnFavorite: Button
+        val btnFavourite: Button
 
         init {
             spanishWord = view.findViewById(R.id.txt_view_spanish_word)
             englishWord = view.findViewById(R.id.txt_view_english_word)
-            btnFavorite = view.findViewById(R.id.btnFavourite)
+            btnFavourite = view.findViewById(R.id.btnFavourite)
         }
     }
 
@@ -40,6 +40,10 @@ class DayOfWeekAdapter: RecyclerView.Adapter<DayOfWeekAdapter.MiViewHolder>() {
     override fun onBindViewHolder(viewHolder: MiViewHolder, position: Int) {
         viewHolder.spanishWord.text = list[position].spanishWord
         viewHolder.englishWord.text = list[position].englishWord
+
+        viewHolder.btnFavourite.setOnClickListener {
+            listenerBtn(it as Button, position)
+        }
 
     }
 

@@ -28,7 +28,10 @@
     <string name="add">Añadir</string>
     <string name="group">Grupo</string>
     <string name="color_added">Color añadido correctamente</string>
+    <string name="number_added">Numero añadido correctamente</string>
+    <string name="day_added">Dia añadido correctamente</string>
     <string name="confirm_cancel">¿Estás seguro que quieres cancelar el añadido?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="color_null">El color no puede ser nulo</string>
 </resources>

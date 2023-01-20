@@ -11,7 +11,7 @@ import java.util.concurrent.Executors
 @Database(
     entities = [Favourite::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 
 abstract class DataBase : RoomDatabase() {

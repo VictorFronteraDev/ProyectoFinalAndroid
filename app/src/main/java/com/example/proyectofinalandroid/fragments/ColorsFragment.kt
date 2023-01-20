@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,7 +65,6 @@ class ColorsFragment : Fragment() {
             if(color != null) {
                 addColor(color)
             }
-
         }
     }
 
@@ -84,20 +85,26 @@ class ColorsFragment : Fragment() {
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        favouriteViewModel = ViewModelProvider(this)[favouriteViewModel::class.java]
+        favouriteViewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
 
-        colorAdapter = ColorAdapter { btn, pressedPosition ->
+        colorAdapter = ColorAdapter { _, pressedPosition ->
             val color = colorAdapter?.getItem(pressedPosition)
-
             val favourite = Favourite(color?.spanishWord, color?.englishWord)
 
-            favouriteViewModel.add(favourite)
-
+            val favouriteList = favouriteViewModel.getAllFavorites()
+            favouriteList.observe(requireActivity().findViewById(android.R.id.content), Observer { list ->
+                list.forEach { item ->
+                    if(item == favourite) {
+                        favouriteViewModel.delete(favourite.spanishWord.toString(),
+                            favourite.englishWord.toString())
+                    } else {
+                        favouriteViewModel.add(favourite)
+                    }
+                }
+            })
         }
 
         recycler.adapter = colorAdapter
-
-
 
         colorAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
@@ -191,7 +198,10 @@ class ColorsFragment : Fragment() {
 
                         if (color != null) {
                             colorAdapter?.updateList(pressedPosition, color)
-                            Toast.makeText(context,R.string.update, Toast.LENGTH_SHORT).show()
+                            Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.updated, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.accept){
+                                }
+                                .show()
 
                         }
                     } else
@@ -216,7 +226,10 @@ class ColorsFragment : Fragment() {
 
                     if (color != null) {
                         colorAdapter?.deleteFromList(pressedPosition)
-                        Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.deleted, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.accept){
+                            }
+                            .show()
                     }
                 } else
                     Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_SHORT).show()

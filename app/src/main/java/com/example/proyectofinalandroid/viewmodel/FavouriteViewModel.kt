@@ -15,7 +15,7 @@ class FavouriteViewModel(application: Application) : AndroidViewModel(applicatio
         repositoryFavourite = RepositoryFavourite(application)
 
         //obtain all favorites from repository
-        allFavorites = repositoryFavourite.getAllFavourites()
+        allFavorites = repositoryFavourite.getAllFavorites()
 
     }
 
@@ -32,5 +32,9 @@ class FavouriteViewModel(application: Application) : AndroidViewModel(applicatio
     //Method to update a favourite through the repository
     fun update(id: Int, spanishWord: String, englishWord: String) {
         repositoryFavourite.update(id, spanishWord, englishWord)
+    }
+
+    fun delete(spanishWord: String, englishWord: String) {
+        repositoryFavourite.delete(spanishWord, englishWord)
     }
 }

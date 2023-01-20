@@ -8,17 +8,17 @@ import com.example.proyectofinalandroid.model.Favourite
 
 class RepositoryFavourite() {
     private lateinit var favouriteDao: FavouriteDao
-    private lateinit var allFavourites: LiveData<List<Favourite>>
+    private lateinit var allFavorites: LiveData<List<Favourite>>
 
     constructor(application: Application) : this() {
         val db = DataBase.getData(application)
         favouriteDao = db.favouriteDao()
-        allFavourites = favouriteDao.getFavourites()
+        allFavorites = favouriteDao.getFavourites()
     }
 
     // Method to get all favorites.
-    fun getAllFavourites() : LiveData<List<Favourite>> {
-        return allFavourites
+    fun getAllFavorites() : LiveData<List<Favourite>> {
+        return allFavorites
     }
 
     // Method to add a favourite.
@@ -31,7 +31,13 @@ class RepositoryFavourite() {
     // Method to update a favourite.
     fun update(id: Int, spanishWord: String, englishWord: String) {
         DataBase.databaseWriterExecutor.execute {
-            favouriteDao.updateFavourite(spanishWord, englishWord)
+            favouriteDao.updateFavourite(id, spanishWord, englishWord)
+        }
+    }
+
+    fun delete(spanishWord: String, englishWord: String) {
+        DataBase.databaseWriterExecutor.execute {
+            favouriteDao.deleteFavourite(spanishWord, englishWord)
         }
     }
 }

@@ -10,21 +10,30 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectofinalandroid.AddActivity
 import com.example.proyectofinalandroid.R
 import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.NumbersAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
+import com.example.proyectofinalandroid.model.Color
+import com.example.proyectofinalandroid.model.Favourite
 import com.example.proyectofinalandroid.model.Numbers
+import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
 class NumbersFragment : Fragment() {
+
+    private lateinit var favouriteViewModel: FavouriteViewModel
 
     private var retrofit: Retrofit? = null
     private var numbersAdapter: NumbersAdapter? = null
@@ -46,6 +55,18 @@ class NumbersFragment : Fragment() {
         }
     }
 
+    val addResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val resultData = result.data?.getBundleExtra(Intent.EXTRA_TEXT)
+
+            val number = resultData?.getParcelable<Numbers>("Numbers")
+
+            if(number != null) {
+                addNumber(number)
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,13 +76,26 @@ class NumbersFragment : Fragment() {
 
         val recycler: RecyclerView = view.findViewById(R.id.recycler_fragment)
 
+        val fab: FloatingActionButton = view.findViewById(R.id.fab)
+
         recycler.setHasFixedSize(true)
 
         recycler.addItemDecoration(DividerItemDecoration(context, 1))
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        numbersAdapter = NumbersAdapter()
+        favouriteViewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
+
+        numbersAdapter = NumbersAdapter { _, pressedPosition ->
+            val number = numbersAdapter?.getItem(pressedPosition)
+
+            val favourite = Favourite(number?.spanishWord, number?.englishWord)
+
+            favouriteViewModel.add(favourite)
+
+        }
+
+        recycler.adapter = numbersAdapter
 
         numbersAdapter!!.setOnClickListener {
             pressedPosition = recycler.getChildLayoutPosition(it)
@@ -79,7 +113,16 @@ class NumbersFragment : Fragment() {
             updateDeleteResult.launch(intent)
         }
 
-        recycler.adapter = numbersAdapter
+        fab.setOnClickListener {
+            val bundle = Bundle()
+
+            bundle.putString("Key", key)
+            val intent = Intent(context, AddActivity::class.java).apply {
+                putExtra(Intent.EXTRA_TEXT, bundle)
+            }
+
+            addResult.launch(intent)
+        }
 
         retrofit = Client.getClient()
 
@@ -100,11 +143,36 @@ class NumbersFragment : Fragment() {
                         numbersAdapter?.addToList(numberList)
                     }
                 } else
-                    Toast.makeText(context, "Fail into the response", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_SHORT).show()
             }
 
             override fun onFailure(call: Call<ArrayList<Numbers>>, t: Throwable) {
                 Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun addNumber(number: Numbers) {
+        val api: Api? = retrofit?.create(Api::class.java)
+
+        api?.saveNumber(number.spanishWord, number.englishWord)?.enqueue(object : Callback<Numbers> {
+            override fun onResponse(call: Call<Numbers>, response: Response<Numbers>) {
+                if(response.isSuccessful) {
+                    val number = response.body()
+
+                    if(number != null) {
+                        numbersAdapter?.addToList(number)
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.number_added, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.accept){
+                            }
+                            .show()
+                    }
+                } else
+                    Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<Numbers>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -120,8 +188,10 @@ class NumbersFragment : Fragment() {
 
                         if (number != null) {
                             numbersAdapter?.updateList(pressedPosition, number)
-                            Toast.makeText(context,R.string.update, Toast.LENGTH_SHORT).show()
-
+                            Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.updated, Snackbar.LENGTH_LONG)
+                                .setAction(R.string.accept){
+                                }
+                                .show()
                         }
                     } else
                         Toast.makeText(context,R.string.fail_reponse, Toast.LENGTH_SHORT).show()
@@ -145,7 +215,10 @@ class NumbersFragment : Fragment() {
 
                     if (color != null) {
                         numbersAdapter?.deleteFromList(pressedPosition)
-                        Toast.makeText(context, R.string.deleted, Toast.LENGTH_SHORT).show()
+                        Snackbar.make(activity!!.findViewById(android.R.id.content), R.string.deleted, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.accept){
+                            }
+                            .show()
                     }
                 } else
                     Toast.makeText(context, R.string.fail_reponse, Toast.LENGTH_SHORT).show()
