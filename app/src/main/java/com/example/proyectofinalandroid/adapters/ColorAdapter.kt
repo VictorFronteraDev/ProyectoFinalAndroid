@@ -86,4 +86,5 @@ class ColorAdapter(private val listenerBtn: (Button, Int) -> Unit): RecyclerView
         listener = onClickListener
     }
 
+
 }

@@ -85,12 +85,13 @@ class DaysOfWeekFragment : Fragment() {
 
         favouriteViewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
 
-        dayOfWeekAdapter = DayOfWeekAdapter{ _, pressedPosition ->
+        dayOfWeekAdapter = DayOfWeekAdapter{ btn, pressedPosition ->
             val dayOfWeek = dayOfWeekAdapter?.getItem(pressedPosition)
 
             val favourite = Favourite(dayOfWeek?.spanishWord, dayOfWeek?.englishWord)
 
             favouriteViewModel.add(favourite)
+            btn.setBackgroundResource(R.drawable.heart)
         }
 
         recycler.adapter = dayOfWeekAdapter

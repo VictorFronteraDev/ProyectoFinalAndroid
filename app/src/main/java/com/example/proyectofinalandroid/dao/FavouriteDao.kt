@@ -9,7 +9,6 @@ interface FavouriteDao {
     @Query("SELECT * FROM favourite_table ORDER BY id ASC")
     fun getFavourites() : LiveData<List<Favourite>>
 
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addFavourite(favourite: Favourite)
 

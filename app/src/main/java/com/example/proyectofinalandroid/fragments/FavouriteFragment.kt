@@ -11,18 +11,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofinalandroid.R
-import com.example.proyectofinalandroid.adapters.ColorAdapter
 import com.example.proyectofinalandroid.adapters.FavouriteAdapter
-import com.example.proyectofinalandroid.connection.Client
 import com.example.proyectofinalandroid.model.Favourite
 import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import retrofit2.Retrofit
 
 class FavouriteFragment : Fragment() {
 
     private lateinit var favouriteViewModel: FavouriteViewModel
-    private var pressedPosition: Int = -1
 
     private var favouriteAdapter: FavouriteAdapter? = null
 
@@ -46,7 +42,9 @@ class FavouriteFragment : Fragment() {
 
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        favouriteAdapter = FavouriteAdapter{ _, pressedPosition ->
+
+
+        favouriteAdapter = FavouriteAdapter{ btn, pressedPosition ->
             val favourite = favouriteAdapter?.getItem(pressedPosition)
 
             if (favourite != null) {
@@ -64,9 +62,6 @@ class FavouriteFragment : Fragment() {
             favouriteAdapter!!.addToList(favourite as ArrayList<Favourite>)
 
         }
-
-
-
         return view
     }
 

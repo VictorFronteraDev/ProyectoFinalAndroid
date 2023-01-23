@@ -30,6 +30,7 @@
 
     <Button
         android:id="@+id/btnFavourite"
+        android:background="@drawable/heartoutline"
         android:layout_width="60dp"
         android:layout_height="60dp" />
 

@@ -1,9 +1,7 @@
 package com.example.proyectofinalandroid.model
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

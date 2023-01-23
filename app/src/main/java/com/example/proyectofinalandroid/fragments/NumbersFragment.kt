@@ -20,7 +20,6 @@ import com.example.proyectofinalandroid.UpdateDeleteActivity
 import com.example.proyectofinalandroid.adapters.NumbersAdapter
 import com.example.proyectofinalandroid.connection.Api
 import com.example.proyectofinalandroid.connection.Client
-import com.example.proyectofinalandroid.model.Color
 import com.example.proyectofinalandroid.model.Favourite
 import com.example.proyectofinalandroid.model.Numbers
 import com.example.proyectofinalandroid.viewmodel.FavouriteViewModel
@@ -86,12 +85,13 @@ class NumbersFragment : Fragment() {
 
         favouriteViewModel = ViewModelProvider(this)[FavouriteViewModel::class.java]
 
-        numbersAdapter = NumbersAdapter { _, pressedPosition ->
+        numbersAdapter = NumbersAdapter { btn, pressedPosition ->
             val number = numbersAdapter?.getItem(pressedPosition)
 
             val favourite = Favourite(number?.spanishWord, number?.englishWord)
 
             favouriteViewModel.add(favourite)
+            btn.setBackgroundResource(R.drawable.heart)
 
         }
 
